@@ -60,8 +60,62 @@ const getSpecificProductById = async (req: Request, res: Response) => {
   }
 };
 
+// get specific products
+const updateSpecificProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const updatedProduct = req.body;
+    const data = await productServices.updateSpecificProductByIdFromDB(
+      productId,
+      updatedProduct
+    );
+
+    res.status(200).json({
+      success: true,
+      message: 'Product updated successfully!',
+      data
+    });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).send({
+      success: false,
+      message: error.message || 'something went wrong'
+    });
+  }
+};
+
+// delete specific products
+const deleteSpecificProductById = async (req: Request, res: Response) => {
+  try {
+    const { productId } = req.params;
+    const data =
+      await productServices.deleteSpecificProductByIdFromDB(productId);
+
+    if (data) {
+      res.status(200).json({
+        success: true,
+        message: 'Product deleted successfully!',
+        data: null
+      });
+    } else {
+      res.status(404).json({
+        success: false,
+        message: "This products is not available .So you can't delete this"
+      });
+    }
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } catch (error: any) {
+    res.status(500).send({
+      success: false,
+      message: error.message || 'something went wrong'
+    });
+  }
+};
+
 export default {
   createProduct,
   getProducts,
-  getSpecificProductById
+  getSpecificProductById,
+  updateSpecificProductById,
+  deleteSpecificProductById
 };

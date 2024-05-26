@@ -18,8 +18,28 @@ const getSpecificProductByIdFromDB = async (_id: string) => {
   return result;
 };
 
+// update a specific product
+const updateSpecificProductByIdFromDB = async (
+  _id: string,
+  updatedProduct: TProduct
+) => {
+  const result = await Product.findByIdAndUpdate(_id, updatedProduct, {
+    new: true,
+    runValidators: true
+  });
+  return result;
+};
+
+// update a specific product
+const deleteSpecificProductByIdFromDB = async (_id: string) => {
+  const result = await Product.findByIdAndDelete(_id, { new: true });
+  return result;
+};
+
 export default {
   createProductIntoDB,
   getProductsFromDB,
-  getSpecificProductByIdFromDB
+  getSpecificProductByIdFromDB,
+  updateSpecificProductByIdFromDB,
+  deleteSpecificProductByIdFromDB
 };
