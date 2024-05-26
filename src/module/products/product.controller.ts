@@ -24,11 +24,22 @@ const createProduct = async (req: Request, res: Response) => {
 // get all products
 const getProducts = async (req: Request, res: Response) => {
   try {
-    const data = await productServices.getProductsFromDB();
+    const searchTerm = req.query.searchTerm as string;
+    const data = await productServices.getProductsFromDB(searchTerm);
 
-    res.status(200).json({
+    if (!data.length) {
+      return res.status(404).json({
+        success: false,
+        message: 'Products not found into db!',
+        data: null
+      });
+    }
+
+    return res.status(200).json({
       success: true,
-      message: 'Products fetched successfully!',
+      message: searchTerm
+        ? `Products matching search term '${searchTerm}' fetched successfully!`
+        : 'Products fetched successfully!',
       data
     });
     // eslint-disable-next-line @typescript-eslint/no-explicit-any

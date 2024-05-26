@@ -16,8 +16,9 @@ app.get('/', (req: Request, res: Response) => {
 
 app.use((req: Request, res: Response) => {
   res.status(404).json({
-    message: '404 page not found'
-  });
+    "success": false,
+    "message": "Route not found"
+   });
 });
 
 export default app;

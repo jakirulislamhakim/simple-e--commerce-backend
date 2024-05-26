@@ -3,3 +3,4 @@ node_modules
 noteForProject.txt
 README.md
 sample-data.json
+product.zod.validation.ts
