@@ -1,9 +1,11 @@
 import { Product } from './product.model';
 import { TProduct } from './product.type';
+import { zodProductValidationSchema } from './product.zod.validation';
 
 // create product
 const createProductIntoDB = async (product: TProduct) => {
-  const result = await Product.create(product);
+  const validateData = zodProductValidationSchema.parse(product);
+  const result = await Product.create(validateData);
   return result;
 };
 // get all products
@@ -35,7 +37,8 @@ const updateSpecificProductByIdFromDB = async (
   _id: string,
   updatedProduct: TProduct
 ) => {
-  const result = await Product.findByIdAndUpdate(_id, updatedProduct, {
+  const validateData = zodProductValidationSchema.parse(updatedProduct);
+  const result = await Product.findByIdAndUpdate(_id, validateData, {
     new: true,
     runValidators: true
   });
